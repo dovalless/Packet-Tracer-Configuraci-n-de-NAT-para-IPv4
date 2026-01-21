@@ -1,4 +1,3 @@
-```markdown
 # 🌐 Packet Tracer: Configuración de NAT Dinámico y Estático para IPv4
 
 [![Cisco Packet Tracer](https://img.shields.io/badge/Cisco-Packet_Tracer-1BA0D7.svg)](https://www.netacad.com/courses/packet-tracer)
@@ -9,7 +8,7 @@
 
 **Laboratorio de Redes: Traducción de Direcciones de Red (NAT)**
 
-[📋 Tabla de Direcciones](#-tabla-de-asignación-de-direcciones) • [⚙️ Configuración](#️-configuración-paso-a-paso) • [🔍 Verificación](#-comandos-de-verificación) • [👨‍💻 Autor](#-autor)
+📊 [Tabla de Direcciones](#-tabla-de-asignación-de-direcciones) • ⚙️ [Configuración](#-configuración-paso-a-paso-router-r2) • 🔍 [Verificación](#-comandos-de-verificación) • 👨‍💻 [Autor](#-autor)
 
 </div>
 
@@ -67,88 +66,70 @@ ip access-list standard R2NAT
  permit 192.168.10.0 0.0.0.255
  permit 192.168.20.0 0.0.0.255
  permit 192.168.30.0 0.0.0.255
-
-```
-
-### 2️⃣ Configuración del Pool y PAT
-
+2️⃣ Configuración del Pool y PAT
 Definimos el espacio de IPs públicas y activamos la sobrecarga (Overload).
 
-```cisco
+Cisco CLI
+
 ip nat pool R2POOL 209.165.202.129 209.165.202.129 netmask 255.255.255.252
 ip nat inside source list R2NAT pool R2POOL overload
-
-```
-
-### 3️⃣ NAT Estático para el Servidor
-
+3️⃣ NAT Estático para el Servidor
 Mapeo dedicado para que el servidor sea accesible externamente.
 
-```cisco
+Cisco CLI
+
 ip nat inside source static 192.168.20.254 209.165.202.130
+4️⃣ Definición de Interfaces (Inside/Outside)
+Es crucial definir el flujo del tráfico para que el proceso NAT sepa dónde traducir.
 
-```
+Cisco CLI
 
-### 4️⃣ Definición de Interfaces
-
-```cisco
 interface Serial0/0/0
+ ip nat inside
+interface Serial0/0/1
+ ip nat inside
+interface FastEthernet0/0/0
  ip nat inside
 interface Serial0/1/0
  ip nat outside
+🔍 Comandos de Verificación
+Para validar que la traducción está funcionando correctamente, utiliza los siguientes comandos en R2:
 
-```
+show ip nat translations: Visualiza la tabla activa de mapeos entre IPs privadas y públicas.
 
----
+show ip nat statistics: Revisa el contador de éxitos (hits), el pool activo y las interfaces configuradas.
 
-## 🔍 Comandos de Verificación
+clear ip nat translation *: Limpia la tabla de traducciones para realizar nuevas pruebas.
 
-Para validar que la traducción está funcionando correctamente, utiliza:
-
-* `show ip nat translations`: Visualiza la tabla activa de mapeos entre IPs privadas y públicas.
-* `show ip nat statistics`: Revisa el contador de éxitos (hits) y errores.
-* `debug ip nat`: (Uso cauteloso) Ver traducciones en tiempo real.
-
----
-
-## 👨‍💻 Autor
-
+👨‍💻 Autor
 <div align="center">
 
-**Darwin Manuel Ovalles Cesar**
+Darwin Manuel Ovalles Cesar
 
-<p align="center">
-<a href="https://www.linkedin.com/in/darwin-manuel-ovalles-cesar-dev/" target="_blank">
-<img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="LinkedIn - Darwin Ovalles" height="40" width="50" />
-</a>
-</p>
+<p align="center"> <a href="https://www.linkedin.com/in/darwin-manuel-ovalles-cesar-dev/" target="_blank"> <img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="LinkedIn - Darwin Ovalles" height="40" width="50" /> </a> </p>
 
-💼 **LinkedIn**: [darwin-manuel-ovalles-cesar-dev](https://www.linkedin.com/in/darwin-manuel-ovalles-cesar-dev/)
+💼 LinkedIn: darwin-manuel-ovalles-cesar-dev
 
-🌐 **GitHub**: [@dovalless](https://github.com/dovalless)
+🌐 GitHub: @dovalless
 
-*"Este proyecto es una muestra de mis habilidades técnicas en el área de redes y telecomunicaciones, enfocado en la administración de dispositivos Cisco y la optimización de recursos IP."*
+"Este proyecto es una muestra de mis habilidades técnicas en el área de redes y telecomunicaciones, enfocado en la administración de dispositivos Cisco y la optimización de recursos IP."
 
-**#CiscoPacketTracer #Networking #NAT #CCNA**
+#CiscoPacketTracer #Networking #NAT #CCNA
 
 </div>
 
----
-
-## 📄 Licencia
-
+📄 Licencia
 Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
 
 <div align="center">
+
 ⭐ Si este laboratorio te resultó útil, considera darle una estrella en GitHub ⭐
 
 🚀 ¡Feliz configuración! 🚀
 
 Desarrollado con 💚 y ☕ por Darwin Ovalles
+
 </div>
 
-```
 
-¿Te gustaría que agregue alguna sección adicional sobre el direccionamiento VLSM o una tabla de pruebas de conectividad específicas?
-
-```
+¿Necesitas que ajuste algún detalle de las interfaces o el direccionamiento antes de que lo publiques?
